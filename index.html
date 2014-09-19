@@ -1,0 +1,107 @@
+<!doctype html>
+<head>
+	<title>The game. v1.0</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<div id="container">
+		<p><a href="index.html">Player 1</a></p>
+		Score: <span id="score1"></span>
+		<div id="game"></div>
+		<p>Player 2</p>
+		Score: <span id="score2"></span>
+		<p id="scores"></p>
+		<p id="task">Task: Click when box turns black.<br/ ><span style="color:green">Z</span> for player 1, <span style="color:red">M</span> for player 2.</p>
+	</div>
+	<script>
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min)) + min; // getting random number. If you use (10, 15), output will never be 15!
+		}
+		function time(){
+			if(ison == false){
+				ison = true;
+				document.getElementById("game").style.background = "black";
+			}else{
+				ison = false;
+				document.getElementById("game").style.background = "white";
+			}
+		}
+		var intervalas = ""; // creating interval variable here, so it wont get bugged
+		var stop = false;
+		var score1 = "0";
+		var score2 = "0";
+		document.getElementById("score1").innerHTML = score1;
+		document.getElementById("score2").innerHTML = score2;
+		function clicked(player){
+			if(stop == true){
+				return 0;
+			}
+			stop = true;
+			if(player == 1){
+				if(ison == true){ // if it's black, lets give him a point, otherwise take one.
+					document.getElementById("game").style.background = "green";
+					document.getElementById("scores").innerHTML = "Player 1 gets one point!";
+					score1++;
+				}else{
+					document.getElementById("game").style.background = "#004100";
+					document.getElementById("scores").innerHTML = "Player 1 loses one point!";
+					score1--;
+				}
+				document.getElementById("score1").innerHTML = score1; // set new score
+			}else if(player == 2){
+				if(ison == true){ // if it's black, lets give him a point, otherwise take one.
+					document.getElementById("game").style.background = "red";
+					document.getElementById("scores").innerHTML = "Player 2 gets one point!";
+					score2++;
+				}else{
+					document.getElementById("game").style.background = "#880000";
+					document.getElementById("scores").innerHTML = "Player 2 loses one point!";
+					score2--;
+				}
+				document.getElementById("score2").innerHTML = score2; // set new score
+			}
+			clearInterval(intervalas);
+			clearInterval(globalinterval);
+			intervalas = setInterval(function () {delscoremsg()}, 1000);
+			stopglobalinterval();
+		}
+
+		function stopglobalinterval(){
+			clearInterval(globalinterval);
+			ison = false;
+		}
+
+		function delscoremsg(){
+			document.getElementById("scores").innerHTML = "";
+			clearInterval(intervalas);
+			document.getElementById("game").style.background = "white";
+			ison = false;
+			globalinterval = setInterval(function () {time()}, getRandomInt(2000, 5000));
+			stop = false;
+		}
+
+		var ison = false; // which color is on? false = white, true = black.
+		var globalinterval;
+		globalinterval = setInterval(function () {time()}, getRandomInt(2000, 5000)); // random time interval for color changing.
+
+		/*$("body").keypress(function() { //jquery, doing function when button is clicker (Z (player1) or M (player2))
+			if(event.which == 122){ // player 1
+				clicked(1);
+			}else if(event.which == 109){ // player 2
+				clicked(2);
+			}
+		});*/
+
+		$('body').keydown( function(e) { // jquery, doing function when button is clicker (Z (player1) or M (player2))
+			if(e.which == 90) {
+				clicked(1);
+			}else if(e.which == 77){
+				clicked(2);
+			}
+		});
+	</script>
+</body>
+</html>
