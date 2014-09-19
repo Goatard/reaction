@@ -1,0 +1,29 @@
+body{
+	background-color: #FFFFFF;
+	line-height: 150%;
+}
+
+#container{
+	width: 600px;
+	margin: 0px auto;
+	text-align: center;
+}
+
+p{
+	font-size: 30px;
+}
+
+#game{
+	width: 140px;
+	height: 100px;
+	border: 1px solid black;
+	margin: 0px auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	background-color: white;
+}
+
+#task{
+	padding-top: 20px;
+	font-weight: bold;
+}
